@@ -1,0 +1,27 @@
+object frmMenu: TfrmMenu
+  Left = 0
+  Top = 0
+  BorderStyle = bsNone
+  ClientHeight = 552
+  ClientWidth = 912
+  Color = clWhite
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  WindowState = wsMaximized
+  TextHeight = 15
+  object pnlCentral: TPanel
+    Left = 0
+    Top = 0
+    Width = 912
+    Height = 552
+    Align = alClient
+    TabOrder = 0
+    ExplicitLeft = 248
+    ExplicitTop = 344
+    ExplicitWidth = 185
+    ExplicitHeight = 41
+  end
+end

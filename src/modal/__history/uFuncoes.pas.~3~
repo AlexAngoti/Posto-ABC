@@ -1,0 +1,52 @@
+unit uFuncoes;
+
+interface
+
+uses
+  System.Classes, System.SysUtils, Vcl.Forms, Vcl.StdCtrls,
+  cxLookupEdit, cxDBLookupComboBox, Vcl.Controls;
+
+procedure DesabilitarControles(Form: TForm);
+procedure HabilitarControles(Form: TForm);
+
+implementation
+
+// -------------------------------------------------------------------
+// FUNÇÃO RECURSIVA ? Varre todos os componentes dentro dos containers
+// -------------------------------------------------------------------
+procedure SetEnabledRecursive(Control: TControl; AEnabled: Boolean);
+var
+  i: Integer;
+begin
+  // TEdit
+  if Control is TEdit then
+    TEdit(Control).Enabled := AEnabled;
+
+  // TcxDBLookupComboBox
+  if Control is TcxDBLookupComboBox then
+    TcxDBLookupComboBox(Control).Enabled := AEnabled;
+
+  // Controle é um container ? varrer dentro
+  if Control is TWinControl then
+    for i := 0 to TWinControl(Control).ControlCount - 1 do
+      SetEnabledRecursive(TWinControl(Control).Controls[i], AEnabled);
+end;
+
+// -------------------------------------------------------------------
+// DESABILITAR TUDO
+// -------------------------------------------------------------------
+procedure DesabilitarControles(Form: TForm);
+begin
+  SetEnabledRecursive(Form, False);
+end;
+
+// -------------------------------------------------------------------
+// HABILITAR TUDO
+// -------------------------------------------------------------------
+procedure HabilitarControles(Form: TForm);
+begin
+  SetEnabledRecursive(Form, True);
+end;
+
+end.
+

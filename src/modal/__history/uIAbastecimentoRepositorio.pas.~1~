@@ -1,0 +1,16 @@
+unit uIAbastecimentoRepositorio;
+
+interface
+
+uses uAbastecimento;
+
+type
+  IAbastecimentoRepository = interface
+    ['{E23FBF4D-E2B3-4289-A0D7-5EA196B0B97C}']
+    procedure Inserir(const AAbastecimento: TAbastecimento);
+  end;
+
+implementation
+
+end.
+

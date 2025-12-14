@@ -1,0 +1,14 @@
+unit uICalculoImposto;
+
+interface
+
+type
+  ICalculoImposto = interface
+    ['{B7C0E9F0-8A6F-4D5A-9A12-123456789ABC}']
+    function Calcular(const AValor: Currency): Currency;
+  end;
+
+implementation
+
+end.
+

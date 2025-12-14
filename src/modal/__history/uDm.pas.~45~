@@ -1,0 +1,180 @@
+unit uDm;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
+  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait,
+  Data.DB, FireDAC.Comp.Client, FireDAC.Stan.Param, FireDAC.DatS,
+  FireDAC.DApt.Intf, FireDAC.DApt, FireDAC.Comp.DataSet, Datasnap.Provider,
+  Datasnap.DBClient, FireDAC.Phys.FB, FireDAC.Phys.FBDef,
+  System.Generics.Collections, uBomba, uTanque;
+
+type
+  Tdm = class(TDataModule)
+    FDConnection: TFDConnection;
+    qryAbastecimento: TFDQuery;
+    dspAbastecimento: TDataSetProvider;
+    cdsAbastecimento: TClientDataSet;
+    dsAbastecimento: TDataSource;
+    qryBomba: TFDQuery;
+    dspBomba: TDataSetProvider;
+    cdsBomba: TClientDataSet;
+    cdsBombaID: TIntegerField;
+    cdsBombaNOME: TStringField;
+    dsBomba: TDataSource;
+    qryTanque: TFDQuery;
+    dspTanque: TDataSetProvider;
+    cdsTanque: TClientDataSet;
+    cdsTanqueID: TIntegerField;
+    cdsTanqueNOME: TStringField;
+    cdsTanqueTIPO: TStringField;
+    dsTanque: TDataSource;
+    cdsBombaID_TANQUE: TIntegerField;
+    cdsAbastecimentoDATA_ABAST: TSQLTimeStampField;
+    cdsAbastecimentoID_BOMBA: TIntegerField;
+    cdsAbastecimentoLITROS: TFMTBCDField;
+    cdsAbastecimentoVALOR_TOTAL: TFMTBCDField;
+    cdsAbastecimentoIMPOSTO: TFMTBCDField;
+    cdsAbastecimentoID: TIntegerField;
+    procedure DataModuleCreate(Sender: TObject);
+    const arquvioconfig = 'config.ini';
+  private
+    procedure CarregaObjetos;
+    procedure CarregaTanque;
+    procedure CarregarBombas;
+  public
+    ListaTanques: TObjectList<TTanque>;
+    ListaBombas: TObjectList<TBomba>;
+    procedure Conectar;
+    procedure Desconectar;
+    procedure CarregaConfig;
+  end;
+
+var
+  dm: Tdm;
+
+implementation
+
+{$R *.dfm}
+
+procedure Tdm.CarregaConfig;
+var
+  ParametroNome: String;
+  ParametroValor: String;
+  Contador: Integer;
+  ListaParametros: TStringList;
+begin
+  FDConnection.Params.Clear;
+
+  if not FileExists(arquvioconfig) then
+    raise Exception.Create('Arquivo de configuração não econtrado');
+
+  ListaParametros := TStringList.Create;
+  try
+    ListaParametros.LoadFromFile(arquvioconfig);
+
+    for Contador := 0 to Pred(ListaParametros.Count) do
+    begin
+      if ListaParametros[Contador].IndexOf('=') > 0 then
+      begin
+        ParametroNome  := ListaParametros[Contador].Split(['='])[0].Trim;
+        ParametroValor := ListaParametros[Contador].Split(['='])[1].Trim;
+
+        if ParametroNome = '^' then
+          Break;
+
+        FDConnection.Params.Add(ParametroNome + '=' + ParametroValor);
+      end;
+    end;
+
+    FDConnection.Params.Values['DriverID']  := 'FB';
+    FDConnection.Params.Values['User_Name'] := 'SYSDBA';
+    FDConnection.Params.Values['Password']  := 'masterkey';
+  finally
+    ListaParametros.Free;
+  end;
+end;
+
+procedure Tdm.CarregaObjetos;
+begin
+  if Assigned(ListaTanques) then
+    ListaTanques.Free;
+
+  if Assigned(ListaBombas) then
+    ListaBombas.Free;
+
+  ListaTanques := TObjectList<TTanque>.Create(True);
+  ListaBombas  := TObjectList<TBomba>.Create(True);
+
+  Self.CarregaTanque;
+  Self.CarregarBombas;
+end;
+
+procedure Tdm.Conectar;
+begin
+  FDConnection.Connected := True;
+end;
+
+procedure Tdm.DataModuleCreate(Sender: TObject);
+begin
+  Self.Desconectar;
+  Self.CarregaConfig;
+  Self.Conectar;
+  Self.CarregaObjetos;
+end;
+
+procedure Tdm.Desconectar;
+begin
+  FDConnection.Connected := False;
+end;
+
+procedure Tdm.CarregaTanque;
+var
+  i: Integer;
+  Tanque: TTanque;
+begin
+  cdsTanque.Close;
+  cdsTanque.Open;
+
+  for i := 0 to Pred(cdsTanque.RecordCount) do
+  begin
+    Tanque := TTanque.Create;
+    Tanque.Id   := cdsTanqueID.AsInteger;
+    Tanque.Nome := cdsTanqueNOME.AsString;
+
+    if cdsTanqueTIPO.AsString = 'D' then
+      Tanque.Tipo := tcDiesel
+    else
+      Tanque.Tipo := tcGasolina;
+
+    ListaTanques.Add(Tanque);
+    cdsTanque.Next;
+  end;
+end;
+
+procedure Tdm.CarregarBombas;
+var
+  i: Integer;
+  Bomba: TBomba;
+begin
+  cdsBomba.Close;
+  cdsBomba.Open;
+
+  for i := 0 to Pred(cdsBomba.RecordCount) do
+  begin
+    Bomba := TBomba.Create;
+    Bomba.Id   := cdsBombaID.AsInteger;
+    Bomba.Nome := cdsBombaNOME.AsString;
+
+    { associação mínima: só o ID do tanque }
+    Bomba.Tanque.Id := cdsBomba.FieldByName('ID_TANQUE').AsInteger;
+
+    ListaBombas.Add(Bomba);
+    cdsBomba.Next;
+  end;
+end;
+
+end.
+

@@ -1,0 +1,14 @@
+unit uICalculoImposto;
+
+interface
+
+type
+  ICalculoImposto = interface
+
+    function Calcular(const AValor: Currency): Currency;
+  end;
+
+implementation
+
+end.
+

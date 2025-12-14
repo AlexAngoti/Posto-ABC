@@ -1,0 +1,209 @@
+unit uMovAbastecimento;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages,
+  System.SysUtils, System.Classes,
+  Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
+  Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Buttons,
+  Data.DB,
+  uBomba, uTanque;
+
+type
+  TfrmMovAbastecimento = class(TForm)
+    pnlSubTop: TPanel;
+    btnFechar: TSpeedButton;
+    pnlBotoes: TPanel;
+    btnIniciar: TSpeedButton;
+    btnCancelar: TSpeedButton;
+    btnFinalizar: TSpeedButton;
+    pnlCentro: TPanel;
+    lblLitros: TLabel;
+    lblVlrTotal: TLabel;
+    lblTipoComb: TLabel;
+    lblBomba: TLabel;
+    edtLitros: TEdit;
+    edtValorTotal: TEdit;
+    cbxTanque: TComboBox;
+    cbxBomba: TComboBox;
+
+    procedure FormShow(Sender: TObject);
+    procedure btnFecharClick(Sender: TObject);
+    procedure btnIniciarClick(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
+    procedure btnFinalizarClick(Sender: TObject);
+    procedure cbxTanqueChange(Sender: TObject);
+    procedure edtValorTotalKeyPress(Sender: TObject; var Key: Char);
+  private
+    procedure CarregaTanque;
+    procedure CarregaBomba(const ATanque: TTanque);
+    procedure LimpaCampo;
+    procedure IniciaAbastecimento;
+    procedure FinalizarAbastecimento;
+  end;
+
+var
+  frmMovAbastecimento: TfrmMovAbastecimento;
+
+implementation
+
+uses
+  uDM,
+  uFuncoes,
+  uAbastecimento,
+  uICalculoImposto,
+  uCalculoImpostoPadrao,
+  uIAbastecimentoRepositorio,
+  uAbastecimentoRepositorioFD;
+
+{$R *.dfm}
+
+{ ===== EVENTOS ===== }
+
+procedure TfrmMovAbastecimento.FormShow(Sender: TObject);
+begin
+  CarregaTanque;
+  DesabilitarControles(Self);
+end;
+
+procedure TfrmMovAbastecimento.btnFecharClick(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TfrmMovAbastecimento.btnIniciarClick(Sender: TObject);
+begin
+  IniciaAbastecimento;
+end;
+
+procedure TfrmMovAbastecimento.btnCancelarClick(Sender: TObject);
+begin
+  if Application.MessageBox(
+       'Deseja realmente cancelar esse abastecimento?',
+       'Confirmação',
+       MB_ICONQUESTION + MB_YESNO
+     ) = IDYES then
+  begin
+    LimpaCampo;
+    CarregaTanque;
+    DesabilitarControles(Self);
+  end;
+end;
+
+procedure TfrmMovAbastecimento.btnFinalizarClick(Sender: TObject);
+begin
+  FinalizarAbastecimento;
+end;
+
+procedure TfrmMovAbastecimento.cbxTanqueChange(Sender: TObject);
+var
+  Tq: TTanque;
+begin
+  cbxBomba.Items.Clear;
+
+  if cbxTanque.ItemIndex < 0 then
+    Exit;
+
+  Tq := TTanque(cbxTanque.Items.Objects[cbxTanque.ItemIndex]);
+  CarregaBomba(Tq);
+end;
+
+procedure TfrmMovAbastecimento.edtValorTotalKeyPress(Sender: TObject; var Key: Char);
+begin
+  if not (Key in ['0'..'9', ',', #8]) then
+    Key := #0;
+
+  if (Key = ',') and (Pos(',', edtValorTotal.Text) > 0) then
+    Key := #0;
+end;
+
+{ ===== MÉTODOS PRIVADOS ===== }
+
+procedure TfrmMovAbastecimento.CarregaTanque;
+var
+  i: Integer;
+begin
+  cbxTanque.Items.Clear;
+  cbxBomba.Items.Clear;
+
+  for i := 0 to Pred(dm.ListaTanques.Count) do
+    cbxTanque.Items.AddObject(
+      dm.ListaTanques[i].Nome,
+      dm.ListaTanques[i]
+    );
+
+  cbxTanque.ItemIndex := -1;
+end;
+
+procedure TfrmMovAbastecimento.CarregaBomba(const ATanque: TTanque);
+var
+  i: Integer;
+  B: TBomba;
+begin
+  cbxBomba.Items.Clear;
+
+  for i := 0 to Pred(dm.ListaBombas.Count) do
+  begin
+    B := dm.ListaBombas[i];
+
+    if B.Tanque.Id = ATanque.Id then
+      cbxBomba.Items.AddObject(B.Nome, B);
+  end;
+
+  cbxBomba.ItemIndex := -1;
+end;
+
+procedure TfrmMovAbastecimento.IniciaAbastecimento;
+begin
+  HabilitarControles(Self);
+end;
+
+procedure TfrmMovAbastecimento.LimpaCampo;
+begin
+  edtLitros.Text     := '0';
+  edtValorTotal.Text := '0';
+end;
+
+procedure TfrmMovAbastecimento.FinalizarAbastecimento;
+var
+  Abastecimento: TAbastecimento;
+  Repo: IAbastecimentoRepositorio;
+  B: TBomba;
+begin
+  if cbxBomba.ItemIndex < 0 then
+  begin
+    ShowMessage('Selecione uma bomba.');
+    Exit;
+  end;
+
+  B := TBomba(cbxBomba.Items.Objects[cbxBomba.ItemIndex]);
+
+  Abastecimento := TAbastecimento.Create(TCalculoImpostoPadrao.Create);
+  try
+    Abastecimento.ValorTotal := StrToFloatDef(edtValorTotal.Text, 0);
+    Abastecimento.Litros     := StrToFloatDef(edtLitros.Text, 0);
+
+    // copia os dados da bomba selecionada
+    Abastecimento.Bomba.Id   := B.Id;
+    Abastecimento.Bomba.Nome := B.Nome;
+
+    Abastecimento.Bomba.Tanque.Id   := B.Tanque.Id;
+    Abastecimento.Bomba.Tanque.Nome := B.Tanque.Nome;
+
+    Abastecimento.CalcularImposto;
+
+    Repo := TAbastecimentoRepositorioFD.Create;
+    Repo.Inserir(Abastecimento);
+  finally
+    Abastecimento.Free;
+  end;
+
+  ShowMessage('Abastecimento finalizado com sucesso!');
+  LimpaCampo;
+  CarregaTanque;
+  DesabilitarControles(Self);
+end;
+
+end.
+

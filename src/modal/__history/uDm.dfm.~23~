@@ -1,0 +1,157 @@
+object dm: Tdm
+  OnCreate = DataModuleCreate
+  Height = 480
+  Width = 640
+  object FDConnection: TFDConnection
+    Params.Strings = (
+      'Database=C:\Users\DEV\Documents\Posto ABC\database\POSTOABC.FDB'
+      'User_Name=SYSDBA'
+      'Password=masterkey'
+      'Server=localhost'
+      'Port=3050'
+      'DriverID=fB')
+    Connected = True
+    Left = 32
+    Top = 8
+  end
+  object qryAbastecimento: TFDQuery
+    Connection = FDConnection
+    SQL.Strings = (
+      '                select * from ABASTECIMENTO where ID = :ID ')
+    Left = 152
+    Top = 8
+    ParamData = <
+      item
+        Name = 'ID'
+        DataType = ftInteger
+        ParamType = ptInput
+      end>
+  end
+  object dspAbastecimento: TDataSetProvider
+    DataSet = qryAbastecimento
+    Left = 192
+    Top = 8
+  end
+  object cdsAbastecimento: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspAbastecimento'
+    Left = 232
+    Top = 8
+    object cdsAbastecimentoDATA_ABAST: TSQLTimeStampField
+      FieldName = 'DATA_ABAST'
+      Required = True
+    end
+    object cdsAbastecimentoID_BOMBA: TIntegerField
+      FieldName = 'ID_BOMBA'
+      Required = True
+    end
+    object cdsAbastecimentoLITROS: TFMTBCDField
+      FieldName = 'LITROS'
+      Required = True
+      Precision = 18
+      Size = 3
+    end
+    object cdsAbastecimentoVALOR_TOTAL: TFMTBCDField
+      FieldName = 'VALOR_TOTAL'
+      Required = True
+      Precision = 18
+      Size = 2
+    end
+    object cdsAbastecimentoIMPOSTO: TFMTBCDField
+      FieldName = 'IMPOSTO'
+      Required = True
+      Precision = 18
+      Size = 2
+    end
+    object cdsAbastecimentoID: TIntegerField
+      AutoGenerateValue = arAutoInc
+      FieldName = 'ID'
+      Required = True
+    end
+  end
+  object dsAbastecimento: TDataSource
+    DataSet = cdsAbastecimento
+    Left = 272
+    Top = 8
+  end
+  object qryBomba: TFDQuery
+    Connection = FDConnection
+    SQL.Strings = (
+      'select * '
+      '  from bomba'
+      '')
+    Left = 152
+    Top = 64
+  end
+  object dspBomba: TDataSetProvider
+    DataSet = qryBomba
+    Left = 192
+    Top = 64
+  end
+  object cdsBomba: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspBomba'
+    Left = 232
+    Top = 64
+    object cdsBombaID: TIntegerField
+      FieldName = 'ID'
+      Required = True
+    end
+    object cdsBombaNOME: TStringField
+      FieldName = 'NOME'
+      Required = True
+      Size = 50
+    end
+    object cdsBombaID_TANQUE: TIntegerField
+      FieldName = 'ID_TANQUE'
+      Required = True
+    end
+  end
+  object dsBomba: TDataSource
+    DataSet = cdsBomba
+    Left = 272
+    Top = 64
+  end
+  object qryTanque: TFDQuery
+    Connection = FDConnection
+    SQL.Strings = (
+      'select * '
+      '  from TANQUE t')
+    Left = 152
+    Top = 120
+  end
+  object dspTanque: TDataSetProvider
+    DataSet = qryTanque
+    Left = 192
+    Top = 120
+  end
+  object cdsTanque: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspTanque'
+    Left = 232
+    Top = 120
+    object cdsTanqueID: TIntegerField
+      FieldName = 'ID'
+      Required = True
+    end
+    object cdsTanqueNOME: TStringField
+      FieldName = 'NOME'
+      Required = True
+      Size = 50
+    end
+    object cdsTanqueTIPO: TStringField
+      FieldName = 'TIPO'
+      Required = True
+      FixedChar = True
+      Size = 1
+    end
+  end
+  object dsTanque: TDataSource
+    DataSet = cdsTanque
+    Left = 272
+    Top = 120
+  end
+end

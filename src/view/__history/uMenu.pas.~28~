@@ -1,0 +1,64 @@
+unit uMenu;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB, Vcl.Grids,
+  Vcl.DBGrids, Vcl.StdCtrls, Vcl.Buttons, Vcl.Imaging.pngimage;
+
+type
+  TfrmMenu = class(TForm)
+    pnlCentral: TPanel;
+    pnlAbastecimento: TPanel;
+    pnlRelatorio: TPanel;
+    pnlBtnAbastecimento: TPanel;
+    btnAbastecimento: TSpeedButton;
+    Image1: TImage;
+    Panel1: TPanel;
+    SpeedButton1: TSpeedButton;
+    Image2: TImage;
+    pnlTop: TPanel;
+    btnFechar: TSpeedButton;
+    btnMinimizar: TSpeedButton;
+    Label1: TLabel;
+    procedure btnFecharClick(Sender: TObject);
+    procedure btnMinimizarClick(Sender: TObject);
+    procedure btnAbastecimentoClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmMenu: TfrmMenu;
+
+implementation
+
+uses
+  uMovAbastecimento, UFundo;
+
+{$R *.dfm}
+
+procedure TfrmMenu.btnAbastecimentoClick(Sender: TObject);
+begin
+  frmMovAbastecimento := TfrmMovAbastecimento.Create(Self);
+  try
+    frmMovAbastecimento.ShowModal;
+  finally
+    FreeAndNil(frmMovAbastecimento);
+  end;
+end;
+
+procedure TfrmMenu.btnFecharClick(Sender: TObject);
+begin
+  Self.Close;
+end;
+
+procedure TfrmMenu.btnMinimizarClick(Sender: TObject);
+begin
+  Application.Minimize;
+end;
+
+end.

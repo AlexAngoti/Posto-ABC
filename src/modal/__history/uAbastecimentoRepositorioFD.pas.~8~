@@ -1,0 +1,36 @@
+unit uAbastecimentoRepositorioFD;
+
+interface
+
+uses
+  uIAbastecimentoRepositorio,
+  uAbastecimento,
+  uDM, Datasnap.DBClient, System.SysUtils;
+
+type
+  TAbastecimentoRepositoryFD = class(TInterfacedObject, IAbastecimentoRepositorio)
+  public
+    procedure Inserir(const AAbastecimento: TAbastecimento);
+  end;
+
+implementation
+
+procedure TAbastecimentoRepositoryFD.Inserir(
+  const AAbastecimento: TAbastecimento);
+begin
+  (dm.dsAbastecimento.DataSet as TClientDataSet).FieldByName('DATA_ABAST').AsDateTime := AAbastecimento.Data;
+  (dm.dsAbastecimento.DataSet as TClientDataSet).FieldByName('ID_BOMBA').AsInteger    := AAbastecimento.Bomba.Id;;
+  (dm.dsAbastecimento.DataSet as TClientDataSet).FieldByName('LITROS').AsFloat := AAbastecimento.Litros;;
+  (dm.dsAbastecimento.DataSet as TClientDataSet).FieldByName('DATA_ABAST').AsDateTime := Now;
+  (dm.dsAbastecimento.DataSet as TClientDataSet).FieldByName('DATA_ABAST').AsDateTime := Now;
+  DM.qryExec.ParamByName('D').AsDateTime := AAbastecimento.Data;
+  DM.qryExec.ParamByName('B').AsInteger := AAbastecimento.Bomba.Id;
+  DM.qryExec.ParamByName('L').AsFloat := AAbastecimento.Litros;
+  DM.qryExec.ParamByName('V').AsCurrency := AAbastecimento.ValorTotal;
+  DM.qryExec.ParamByName('I').AsCurrency := AAbastecimento.Imposto;
+
+  DM.qryExec.ExecSQL;
+end;
+
+end.
+

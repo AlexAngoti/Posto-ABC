@@ -1,0 +1,22 @@
+unit uTanque;
+
+interface
+
+type
+  TTipoCombustivel = (tcGasolina, tcDiesel);
+
+  TTanque = class
+  private
+    FId: Integer;
+    FNome: string;
+    FTipo: TTipoCombustivel;
+  public
+    property Id: Integer read FId write FId;
+    property Nome: string read FNome write FNome;
+    property Tipo: TTipoCombustivel read FTipo write FTipo;
+  end;
+
+implementation
+
+end.
+

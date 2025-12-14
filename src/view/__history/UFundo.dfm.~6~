@@ -1,0 +1,18 @@
+object frmFundo: TfrmFundo
+  Left = 0
+  Top = 0
+  Align = alClient
+  AlphaBlend = True
+  AlphaBlendValue = 210
+  BorderStyle = bsNone
+  ClientHeight = 520
+  ClientWidth = 912
+  Color = 5789784
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  Position = poScreenCenter
+  TextHeight = 13
+end

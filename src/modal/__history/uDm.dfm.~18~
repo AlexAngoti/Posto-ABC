@@ -1,0 +1,120 @@
+object dm: Tdm
+  OnCreate = DataModuleCreate
+  Height = 480
+  Width = 640
+  object FDConnection: TFDConnection
+    Params.Strings = (
+      'Database=C:\Users\DEV\Documents\Posto ABC\database\POSTOABC.FDB'
+      'User_Name=SYSDBA'
+      'Password=masterkey'
+      'Server=localhost'
+      'Port=3050'
+      'DriverID=fB')
+    Left = 32
+    Top = 8
+  end
+  object qryAbastecimento: TFDQuery
+    Connection = FDConnection
+    SQL.Strings = (
+      '                select * from ABASTECIMENTO where ID = :ID ')
+    Left = 152
+    Top = 8
+    ParamData = <
+      item
+        Name = 'ID'
+        ParamType = ptInput
+      end>
+  end
+  object dspAbastecimento: TDataSetProvider
+    DataSet = qryAbastecimento
+    Left = 192
+    Top = 8
+  end
+  object cdsAbastecimento: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspAbastecimento'
+    Left = 232
+    Top = 8
+  end
+  object dsAbastecimento: TDataSource
+    DataSet = cdsAbastecimento
+    Left = 272
+    Top = 8
+  end
+  object qryBomba: TFDQuery
+    Connection = FDConnection
+    SQL.Strings = (
+      'select * '
+      '  from bomba'
+      '')
+    Left = 152
+    Top = 64
+  end
+  object dspBomba: TDataSetProvider
+    DataSet = qryBomba
+    Left = 192
+    Top = 64
+  end
+  object cdsBomba: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspBomba'
+    Left = 232
+    Top = 64
+    object cdsBombaID: TIntegerField
+      FieldName = 'ID'
+      Required = True
+    end
+    object cdsBombaNOME: TStringField
+      FieldName = 'NOME'
+      Required = True
+      Size = 50
+    end
+  end
+  object dsBomba: TDataSource
+    DataSet = cdsBomba
+    Left = 272
+    Top = 64
+  end
+  object qryTanque: TFDQuery
+    Connection = FDConnection
+    SQL.Strings = (
+      'select * '
+      '  from TANQUE t')
+    Left = 152
+    Top = 120
+  end
+  object dspTanque: TDataSetProvider
+    DataSet = qryTanque
+    Left = 192
+    Top = 120
+  end
+  object cdsTanque: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspTanque'
+    Left = 232
+    Top = 120
+    object cdsTanqueID: TIntegerField
+      FieldName = 'ID'
+      Required = True
+    end
+    object cdsTanqueNOME: TStringField
+      FieldName = 'NOME'
+      Required = True
+      Size = 50
+    end
+    object cdsTanqueTIPO: TStringField
+      FieldName = 'TIPO'
+      Required = True
+      FixedChar = True
+      Size = 1
+    end
+  end
+  object dsTanque: TDataSource
+    DataSet = cdsTanque
+    Left = 272
+    Top = 120
+  end
+end
