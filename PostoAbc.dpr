@@ -13,7 +13,8 @@ uses
   uAbastecimentoRepositorioFD in 'src\modal\uAbastecimentoRepositorioFD.pas',
   uMovAbastecimento in 'src\view\uMovAbastecimento.pas' {frmMovAbastecimento},
   uFuncoes in 'src\modal\uFuncoes.pas',
-  UFundo in 'src\view\UFundo.pas' {frmFundo};
+  UFundo in 'src\view\UFundo.pas' {frmFundo},
+  uRelPadrao in 'src\view\uRelPadrao.pas' {frmRelPadrao};
 
 {$R *.res}
 
@@ -23,5 +24,6 @@ begin
   Application.CreateForm(TfrmMenu, frmMenu);
   Application.CreateForm(Tdm, dm);
   Application.CreateForm(TfrmFundo, frmFundo);
+  Application.CreateForm(TfrmRelPadrao, frmRelPadrao);
   Application.Run;
 end.
