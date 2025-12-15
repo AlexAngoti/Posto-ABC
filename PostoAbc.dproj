@@ -154,6 +154,14 @@
             <Form>frmRelPadrao</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="src\view\uImpressao.pas">
+            <Form>frmImpressao</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
+        <DCCReference Include="src\view\uRelAbastecimento.pas">
+            <Form>frmRelAbastecimento</Form>
+            <FormType>dfm</FormType>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

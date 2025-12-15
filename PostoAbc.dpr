@@ -14,7 +14,9 @@ uses
   uMovAbastecimento in 'src\view\uMovAbastecimento.pas' {frmMovAbastecimento},
   uFuncoes in 'src\modal\uFuncoes.pas',
   UFundo in 'src\view\UFundo.pas' {frmFundo},
-  uRelPadrao in 'src\view\uRelPadrao.pas' {frmRelPadrao};
+  uRelPadrao in 'src\view\uRelPadrao.pas' {frmRelPadrao},
+  uImpressao in 'src\view\uImpressao.pas' {frmImpressao},
+  uRelAbastecimento in 'src\view\uRelAbastecimento.pas' {frmRelAbastecimento};
 
 {$R *.res}
 
@@ -25,5 +27,7 @@ begin
   Application.CreateForm(Tdm, dm);
   Application.CreateForm(TfrmFundo, frmFundo);
   Application.CreateForm(TfrmRelPadrao, frmRelPadrao);
+  Application.CreateForm(TfrmImpressao, frmImpressao);
+  Application.CreateForm(TfrmRelAbastecimento, frmRelAbastecimento);
   Application.Run;
 end.
