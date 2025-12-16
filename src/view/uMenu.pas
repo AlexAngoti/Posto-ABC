@@ -22,9 +22,11 @@ type
     btnFechar: TSpeedButton;
     btnMinimizar: TSpeedButton;
     Label1: TLabel;
+    imgLogoTop: TImage;
     procedure btnFecharClick(Sender: TObject);
     procedure btnMinimizarClick(Sender: TObject);
     procedure btnAbastecimentoClick(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -37,7 +39,7 @@ var
 implementation
 
 uses
-  uMovAbastecimento, UFundo;
+  uMovAbastecimento, UFundo, uRelAbastecimento;
 
 {$R *.dfm}
 
@@ -63,6 +65,16 @@ end;
 procedure TfrmMenu.btnMinimizarClick(Sender: TObject);
 begin
   Application.Minimize;
+end;
+
+procedure TfrmMenu.SpeedButton1Click(Sender: TObject);
+begin
+  frmRelAbastecimento := TfrmRelAbastecimento.Create(self);
+  try
+    frmRelAbastecimento.ShowModal;
+  finally
+    FreeAndNil(frmRelAbastecimento);
+  end;
 end;
 
 end.

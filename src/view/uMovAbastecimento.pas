@@ -82,6 +82,7 @@ end;
 procedure TfrmMovAbastecimento.btnIniciarClick(Sender: TObject);
 begin
   IniciaAbastecimento;
+  cbxTanque.SetFocus;
 end;
 
 procedure TfrmMovAbastecimento.btnCancelarClick(Sender: TObject);

@@ -41,8 +41,8 @@
     <Transaction>2025/12/15 00:21:57.000.759,=C:\Users\Alex Angoti\Documents\Posto-ABC\Unit1.pas</Transaction>
     <Transaction>2025/12/15 00:22:40.000.148,C:\Users\Alex Angoti\Documents\Posto-ABC\Unit1.dfm=C:\Users\Alex Angoti\Documents\Posto-ABC\src\view\uImpressao.dfm</Transaction>
     <Transaction>2025/12/15 00:22:40.000.148,C:\Users\Alex Angoti\Documents\Posto-ABC\Unit1.pas=C:\Users\Alex Angoti\Documents\Posto-ABC\src\view\uImpressao.pas</Transaction>
-    <Transaction>2025/12/15 00:28:54.429,=C:\Users\Alex Angoti\Documents\Posto-ABC\Unit1.pas</Transaction>
-    <Transaction>2025/12/15 00:29:04.597,C:\Users\Alex Angoti\Documents\Posto-ABC\src\view\uRelAbastecimento.dfm=C:\Users\Alex Angoti\Documents\Posto-ABC\Unit1.dfm</Transaction>
-    <Transaction>2025/12/15 00:29:04.597,C:\Users\Alex Angoti\Documents\Posto-ABC\src\view\uRelAbastecimento.pas=C:\Users\Alex Angoti\Documents\Posto-ABC\Unit1.pas</Transaction>
+    <Transaction>2025/12/15 00:28:54.000.429,=C:\Users\Alex Angoti\Documents\Posto-ABC\Unit1.pas</Transaction>
+    <Transaction>2025/12/15 00:29:04.000.597,C:\Users\Alex Angoti\Documents\Posto-ABC\src\view\uRelAbastecimento.dfm=C:\Users\Alex Angoti\Documents\Posto-ABC\Unit1.dfm</Transaction>
+    <Transaction>2025/12/15 00:29:04.000.597,C:\Users\Alex Angoti\Documents\Posto-ABC\src\view\uRelAbastecimento.pas=C:\Users\Alex Angoti\Documents\Posto-ABC\Unit1.pas</Transaction>
   </Transactions>
 </BorlandProject>

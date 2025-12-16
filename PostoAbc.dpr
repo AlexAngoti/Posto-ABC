@@ -25,9 +25,5 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmMenu, frmMenu);
   Application.CreateForm(Tdm, dm);
-  Application.CreateForm(TfrmFundo, frmFundo);
-  Application.CreateForm(TfrmRelPadrao, frmRelPadrao);
-  Application.CreateForm(TfrmImpressao, frmImpressao);
-  Application.CreateForm(TfrmRelAbastecimento, frmRelAbastecimento);
   Application.Run;
 end.

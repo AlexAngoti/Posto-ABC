@@ -367,12 +367,12 @@ object frmMovAbastecimento: TfrmMovAbastecimento
       ParentBackground = False
       TabOrder = 0
       object btnIniciar: TSpeedButton
-        Left = 432
+        Left = 0
         Top = 0
         Width = 201
         Height = 57
         Align = alLeft
-        Caption = 'Iniciar Abastecimento (F3)'
+        Caption = 'Iniciar Abastecimento (F2)'
         Flat = True
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWhite
@@ -512,10 +512,11 @@ object frmMovAbastecimento: TfrmMovAbastecimento
           0000000000000000000000000000000000000000000000000000}
         ParentFont = False
         OnClick = btnIniciarClick
-        ExplicitLeft = 0
+        ExplicitLeft = -136
+        ExplicitTop = 2
       end
       object btnCancelar: TSpeedButton
-        Left = 216
+        Left = 201
         Top = 0
         Width = 216
         Height = 57
@@ -660,15 +661,16 @@ object frmMovAbastecimento: TfrmMovAbastecimento
           0000000000000000000000000000000000000000000000000000}
         ParentFont = False
         OnClick = btnCancelarClick
-        ExplicitLeft = -15
+        ExplicitLeft = 129
+        ExplicitTop = 10
       end
       object btnFinalizar: TSpeedButton
-        Left = 0
+        Left = 417
         Top = 0
         Width = 216
         Height = 57
         Align = alLeft
-        Caption = 'Finalizar Abastecimento (F2)'
+        Caption = 'Finalizar Abastecimento (F3)'
         Flat = True
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWhite
@@ -808,7 +810,8 @@ object frmMovAbastecimento: TfrmMovAbastecimento
           0000000000000000000000000000000000000000000000000000}
         ParentFont = False
         OnClick = btnFinalizarClick
-        ExplicitLeft = -15
+        ExplicitLeft = 521
+        ExplicitTop = -16
       end
     end
   end
@@ -834,11 +837,11 @@ object frmMovAbastecimento: TfrmMovAbastecimento
     ParentFont = False
     TabOrder = 1
     object lblLitros: TLabel
-      Left = 134
+      Left = 73
       Top = 105
-      Width = 39
+      Width = 100
       Height = 17
-      Caption = 'Litros:'
+      Caption = 'Volume (Litros):'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13
@@ -847,11 +850,11 @@ object frmMovAbastecimento: TfrmMovAbastecimento
       ParentFont = False
     end
     object lblVlrTotal: TLabel
-      Left = 514
+      Left = 521
       Top = 105
-      Width = 71
+      Width = 64
       Height = 17
-      Caption = 'Valor Total:'
+      Caption = 'Total (R$):'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -13

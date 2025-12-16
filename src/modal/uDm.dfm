@@ -4,13 +4,14 @@ object dm: Tdm
   Width = 640
   object FDConnection: TFDConnection
     Params.Strings = (
-      'Database=C:\Users\DEV\Documents\Posto ABC\database\POSTOABC.FDB'
+      
+        'Database=C:\Users\Alex Angoti\Documents\Posto-ABC\database\POSTO' +
+        'ABC.FDB'
       'User_Name=SYSDBA'
       'Password=masterkey'
       'Server=localhost'
       'Port=3050'
       'DriverID=fB')
-    Connected = True
     Left = 32
     Top = 8
   end
