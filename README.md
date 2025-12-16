@@ -9,7 +9,7 @@ O sistema simula o processo de **abastecimento de um posto de combustíveis**, e
 ## 🛠️ Tecnologias Utilizadas
 
 * **Delphi 12 (VCL)**
-* **Firebird SQL**
+* **Firebird SQL 5.0**
 * **FireDAC**
 * **Programação Orientada a Objetos (OO)**
 * **Interfaces (Contracts)**
